@@ -1,0 +1,101 @@
+-ROUTE
+-CONTROLLER
+-VIEWS
+-MODEL (OPTIONAL)
+
+ext vscode:
+1. php intelearlr
+2. php intellisense
+3. php namespace
+4. laravel blade snippet
+5. laravel blade formatter
+6. laravel snippets
+7. laravel artisan
+
+
+
+Command :
+	php artisan route:list
+
+	php artisan make:controller OuterController
+
+	php artisan make:model Users -mcr
+	(buat file model users sekalian file migrationnya)
+
+	php artisan migrate (buat migrate ke databasenya)
+
+	php artisan migrate:reset (buat reset migrationnya)
+
+	php artisan db:seed (buat seeding data ke database)
+
+	php artisan optimize (untuk rebuild/ clean)
+
+
+TUGAS LARAVEL:
+1. fitur: edit article & add article, form register user untuk admin yang bisa add edit delete kelola artikel.
+2. validasi form (minimal input berapa huruf, dan lain2)
+3. tampilan se kreatif mungkin (dashboard & home) - boleh bootstrap atau apapun
+4. session message (notifikasi dari setiap aksi yg dilakukan)
+
+
+
+ <div class="row d-flex justify-content-center">
+
+        <!--Grid column-->
+        <div class="col-md-6">
+            {{-- {{ dd($users->token) }} --}}
+            <h2>{{ $title }}</h2>
+            <form action={{ route('dashboard_logout') }} method="POST">
+                @csrf
+                <input type="hidden" name="token" value={{ $users->token }}>
+                <button type="submit">Logout</button>
+            </form>
+            <span>{{ session()->get('message') }}</span>
+            <div class="">
+                <form action={{ route('article_add_action') }} method="POST">
+                    @csrf
+                    <input type="text" placeholder="Title" name="title">
+                    <input type="text" placeholder="Description" name="description">
+                    <input type="text" placeholder="Tag" name="tag">
+                    <button type="submit">Add</button>
+
+                </form>
+            </div>
+            <div class="table table-responsive-lg">
+                <table border="1px;" class="table table-responsive-md table-striped align-middle">
+                    <thead class="table table-info">
+                        <tr>
+                            <th>ID </th>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Title</th>
+                            <th> </th>
+                        </tr>
+                    </thead>
+                    <tbody class=" table-striped">
+
+                        @foreach ($articles as $item)
+                            <tr>
+                                <td>{{ $item->id }}</td>
+                                <td>{{ $item->title }}</td>
+                                <td>{{ $item->description }}</td>
+                                <td>{{ $item->tag }}</td>
+                                <td>
+                                    <a href="">Edit</a>
+                                    <form action={{ route('article_delete_action') }} method="POST">
+                                        @csrf
+                                        <input type="hidden" name="id" value={{ $item->id }}>
+                                        <button type="submit">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        <!--Grid column-->
+
+    </div>
